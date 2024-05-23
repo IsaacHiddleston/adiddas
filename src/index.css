@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.Upper_btn {
+  border: 1px solid black;
+  padding: 9px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.upper {
+  scrollbar-width: thin;
+  scrollbar-color: black #f1f1f1;
+}
+
+/* Handle */
+.upper::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+/* Handle on hover */
+.upper::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
