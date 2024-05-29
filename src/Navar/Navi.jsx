@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Navi.css";
 
 import heart from "../assets/forNavi/heart.svg";
 import cart from "../assets/forNavi/cart.svg";
