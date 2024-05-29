@@ -19,6 +19,3 @@
 }
 
 /* Handle on hover */
-.upper::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
