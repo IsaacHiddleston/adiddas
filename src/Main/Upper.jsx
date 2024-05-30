@@ -6,19 +6,34 @@ import ar from "../assets/forBoth/ar.svg";
 
 const Upper = () => {
   const scrollContainerRef = useRef(null);
-  const [leftZero, setLeftZero] = useState(false);
-  const [rightZero, setRightZero] = useState(false);
+  const [scrollL, setScrollL] = useState(0);
+  const [scrollEnd, setScrollEnd] = useState(false);
 
   useEffect(() => {
-    scrollContainerRef.current.scrollLeft === 0
-      ? console.log("ok")
-      : console.log("");
+    const handleScroll = () => {
+      const scrollLeft = scrollContainerRef.current.scrollLeft;
+      const scrollWidth = scrollContainerRef.current.scrollWidth;
+      const clientWidth = scrollContainerRef.current.clientWidth;
+
+      setScrollL(scrollLeft);
+      setScrollEnd(scrollLeft + clientWidth >= scrollWidth);
+    };
+
+    const scrollContainer = scrollContainerRef.current;
+    scrollContainer.addEventListener("scroll", handleScroll);
+
+    // Initial check
+    handleScroll();
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const scrollLeft = () => {
     scrollContainerRef.current.scrollBy({
       top: 0,
-      left: -200,
+      left: -1000,
       behavior: "smooth",
     });
   };
@@ -26,7 +41,7 @@ const Upper = () => {
   const scrollRight = () => {
     scrollContainerRef.current.scrollBy({
       top: 0,
-      left: 200,
+      left: 1000,
       behavior: "smooth",
     });
   };
@@ -48,14 +63,22 @@ const Upper = () => {
       </div>
       <div className="py-10 relative">
         <div
-          className="flex gap-5 overflow-auto upper "
+          className="flex gap-5 overflow-auto upper group"
           ref={scrollContainerRef}
           style={{ scrollBehavior: "smooth" }}
         >
-          <div className="w-[50px] flex justify-center items-center h-11 absolute z-[2] left-0 top-[50%] bg-white border-[1px] border-[black]">
+          <div
+            className={`w-[50px] transition-opacity duration-500 opacity-0 group-hover:opacity-${
+              scrollL === 0 ? "0" : "100"
+            } flex justify-center items-center h-11 absolute z-[2] left-0 top-[50%] bg-white border-[1px] border-[black]`}
+          >
             <img src={al} alt="" width={25} height={32} onClick={scrollLeft} />
           </div>
-          <div className="w-[50px] flex justify-center items-center h-11 absolute z-[2] right-0 bottom-[50%] bg-white border-[1px] border-[black]">
+          <div
+            className={`w-[50px] transition-opacity duration-500 opacity-0 group-hover:opacity-${
+              scrollEnd ? "0" : "100"
+            } flex justify-center items-center h-11 absolute z-[2] right-0 top-[50%] bg-white border-[1px] border-[black]`}
+          >
             <img src={ar} alt="" width={25} height={32} onClick={scrollRight} />
           </div>
           {stocks?.map((item, index) => {
